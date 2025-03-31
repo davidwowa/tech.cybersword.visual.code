@@ -8,6 +8,7 @@ import java.nio.file.FileSystems;
 import java.nio.file.Path;
 import java.util.Base64;
 import java.util.HashSet;
+import java.util.Scanner;
 import java.util.Set;
 
 import com.google.zxing.BarcodeFormat;
@@ -19,6 +20,39 @@ import com.google.zxing.qrcode.QRCodeWriter;
 
 public class App {
     public static void main(String[] args) {
+        App app = new App();
+
+        Scanner scanner = new Scanner(System.in);
+        String line;
+        StringBuilder contentBuilder = new StringBuilder();
+
+        System.out.println("Enter you payload (type 'baam!!!' to create QR and Barcode, 'exit' to quit):");
+
+        while (true) {
+            line = scanner.nextLine();
+
+            if ("exit".equalsIgnoreCase(line)) {
+                break;
+            } else if ("baam!!!".equalsIgnoreCase(line)) {
+                String content = contentBuilder.toString().trim();
+                if (!content.isEmpty()) {
+                    app.createQRandBarcode(content);
+                    contentBuilder.setLength(0);
+                } else {
+                    System.out.println("no content to create QR and Barcode");
+                }
+            } else {
+                contentBuilder.append(line).append("\n");
+            }
+        }
+
+        System.out.println("Exiting...");
+        scanner.close();
+
+    }
+
+    public void createPicsFromDictionary() {
+
         String folderPath = "/Users/david/git/tech.cybersword.payloads/";
 
         Set<String> uniqueStrings = new HashSet<>();
